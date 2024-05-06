@@ -60,10 +60,7 @@ public class Menu extends JFrame {
         start.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                GameFrame game = new GameFrame("Flappy Bird");
-                game.setVisible(true);
-                game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                game.setSize(new Dimension(1920,1080));
+                Game game = new Game();
             }
 
             @Override

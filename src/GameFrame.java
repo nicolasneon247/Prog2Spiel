@@ -13,8 +13,9 @@ public class GameFrame extends JFrame {
     private JPanel south;
     private JPanel scorePanel;
     private int score = 0;
+    private JPanel game;
 
-    public GameFrame(String title){
+    public GameFrame(String title, JPanel game){
         super(title);
 
         Container contentPane = getContentPane();
@@ -23,6 +24,8 @@ public class GameFrame extends JFrame {
 
         contentPane.add(south, BorderLayout.SOUTH);
         contentPane.add(scorePanel, BorderLayout.NORTH);
+        contentPane.add(game, BorderLayout.CENTER);
+
     }
     public void initializeButtons(){
         menuButton = new JButton("Menu");
