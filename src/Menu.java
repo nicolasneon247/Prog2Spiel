@@ -60,7 +60,11 @@ public class Menu extends JFrame {
         start.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Game game = new Game();
+                try {
+                    Game game = new Game();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
 
             @Override
