@@ -4,14 +4,14 @@ import java.awt.*;
 public class GameObject extends JLabel{
 
     private String name;
-    protected double x;
-    protected double y;
-    protected double width;
-    protected double height;
-    protected double speed;
+    protected int x;
+    protected int y;
+    protected int width;
+    protected int height;
+    protected int speed; // in pixels per keypress
     protected JLabel entity;
 
-    public GameObject(String name, double x, double y, double width, double height, double speed) {
+    public GameObject(String name, int x, int y, int width, int height, int speed) {
         super();
         this.name = name;
         this.x = x;
@@ -22,10 +22,10 @@ public class GameObject extends JLabel{
 
         entity = new JLabel();
         entity.setBackground(Color.red);
-        entity.setBounds((int) x, (int) y, (int) width, (int) height);
-        entity.setMinimumSize(new Dimension((int) width, (int) height));
-        entity.setPreferredSize(new Dimension((int) width, (int) height));
-        entity.setMaximumSize(new Dimension((int) width, (int) height));
+        entity.setBounds(x, y, width, height);
+        entity.setMinimumSize(new Dimension(width, height));
+        entity.setPreferredSize(new Dimension(width, height));
+        entity.setMaximumSize(new Dimension(width, height));
         entity.repaint();
 
         entity.setOpaque(true);
@@ -33,5 +33,38 @@ public class GameObject extends JLabel{
 
     public JLabel getEntity() {
         return entity;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }
