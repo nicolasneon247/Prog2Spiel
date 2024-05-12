@@ -61,7 +61,7 @@ public class Menu extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    Game game = new Game();
+                    new Game().start();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
