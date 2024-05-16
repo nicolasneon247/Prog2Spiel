@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GameObject extends JLabel{
 
@@ -10,8 +11,12 @@ public class GameObject extends JLabel{
     protected int height;
     protected int speed; // in pixels per keypress
     protected JLabel entity;
+    protected Color color;
+    protected static ArrayList<GameObject> objects = new ArrayList<>();
+    //enemys zur arraylist hinzufügen um kollidierung mit player zu überprüfen
+    protected static ArrayList<JLabel> enemys = new ArrayList<>();
 
-    public GameObject(String name, int x, int y, int width, int height, int speed) {
+    public GameObject(String name, int x, int y, int width, int height, int speed, Color color) {
         super();
         this.name = name;
         this.x = x;
@@ -19,9 +24,10 @@ public class GameObject extends JLabel{
         this.width = width;
         this.height = height;
         this.speed = speed;
+        this.color = color;
 
         entity = new JLabel();
-        entity.setBackground(Color.red);
+        entity.setBackground(color);
         entity.setBounds(x, y, width, height);
         entity.setMinimumSize(new Dimension(width, height));
         entity.setPreferredSize(new Dimension(width, height));
@@ -29,6 +35,8 @@ public class GameObject extends JLabel{
         entity.repaint();
 
         entity.setOpaque(true);
+
+        objects.add(this);
     }
 
     public JLabel getEntity() {
@@ -66,5 +74,10 @@ public class GameObject extends JLabel{
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public void deleteObject(GameObject object){
+        objects.remove(object);
+        object = null;
     }
 }

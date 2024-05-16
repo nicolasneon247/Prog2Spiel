@@ -7,15 +7,13 @@ import java.io.IOException;
 
 public class GameFrame extends JFrame {
 
-    private JLabel scoreText;
-    private JLabel scoreNumber;
-    private JButton menuButton;
-    private JPanel south;
-    private JPanel scorePanel;
-    private int score = 0;
-    private JPanel game;
+    private static JLabel scoreText;
+    private static JLabel scoreNumber;
+    private static JButton menuButton;
+    private static JPanel south;
+    private static JPanel scorePanel;
 
-    public GameFrame(String title, JPanel game){
+    public GameFrame(String title, JPanel game, String score){
         super(title);
 
         Container contentPane = getContentPane();
@@ -25,7 +23,6 @@ public class GameFrame extends JFrame {
         contentPane.add(south, BorderLayout.SOUTH);
         contentPane.add(scorePanel, BorderLayout.NORTH);
         contentPane.add(game, BorderLayout.CENTER);
-
     }
     public void initializeButtons(){
         menuButton = new JButton("Menu");
@@ -45,7 +42,7 @@ public class GameFrame extends JFrame {
         scoreText.setOpaque(true);
         scoreText.setToolTipText("Zeigt die Punktzahl an.");
 
-        scoreNumber = new JLabel("" + score);
+        scoreNumber = new JLabel("0");
         scoreNumber.setFont(new Font("Arial", Font.BOLD, 40));
         scoreNumber.setForeground(Color.GREEN);
         scoreNumber.setOpaque(true);
@@ -72,5 +69,8 @@ public class GameFrame extends JFrame {
                 menuButton.setBackground(Color.DARK_GRAY);
             }
         });
+    }
+    public static void updateScore(String score){
+        scoreNumber.setText(score);
     }
 }
