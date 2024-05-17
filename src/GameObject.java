@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class GameObject extends JLabel{
+public class GameObject{
 
     private String name;
     protected int x;
@@ -13,8 +13,6 @@ public class GameObject extends JLabel{
     protected JLabel entity;
     protected Color color;
     protected static ArrayList<GameObject> objects = new ArrayList<>();
-    //enemys zur arraylist hinzufügen um kollidierung mit player zu überprüfen
-    protected static ArrayList<JLabel> enemys = new ArrayList<>();
 
     public GameObject(String name, int x, int y, int width, int height, int speed, Color color) {
         super();
@@ -26,6 +24,8 @@ public class GameObject extends JLabel{
         this.speed = speed;
         this.color = color;
 
+
+        //entity als image darstellen damit es kein java swing ist
         entity = new JLabel();
         entity.setBackground(color);
         entity.setBounds(x, y, width, height);
@@ -43,27 +43,26 @@ public class GameObject extends JLabel{
         return entity;
     }
 
-    @Override
+
     public String getName() {
         return name;
     }
 
-    @Override
+
     public int getX() {
         return x;
     }
 
-    @Override
+
     public int getY() {
         return y;
     }
 
-    @Override
+
     public int getWidth() {
         return width;
     }
 
-    @Override
     public int getHeight() {
         return height;
     }

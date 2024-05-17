@@ -35,5 +35,9 @@ public class Game extends JPanel{
         launchGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         launchGame.setResizable(true); //vielleicht false setzen
         launchGame.setSize(new Dimension(1920,1080));//richtige Fenstergröße muss noch gefunden werden
+
+        //launchGame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //launchGame.setUndecorated(true);
+
     }
 }
