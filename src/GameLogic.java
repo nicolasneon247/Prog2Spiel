@@ -1,3 +1,5 @@
+import org.w3c.dom.html.HTMLImageElement;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -13,15 +15,18 @@ import java.security.Key;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
+import java.awt.Image;
 
 public class GameLogic{
 
     protected JPanel game;
     protected ArrayList<String> moveBtns = new ArrayList<>();
     protected static ArrayList<GameObject> elements = new ArrayList<>();
+    Image playerImg = loadImage("Prog2Spiel/bird.jpg");
 
     //Game Objects
-    GameObject playerObj = new GameObject("Player", 0, 0, 100, 100, 50, Color.GREEN);
+    GameObject playerObj = new GameObject("Player", 50, 50, 100, 100, 50, Color.GREEN, playerImg);
     protected JLabel player = playerObj.getEntity();
 
     //GameObject enemyObj = new GameObject("Enemy", 500, 500, 100, 300, 0, Color.RED);
@@ -34,13 +39,13 @@ public class GameLogic{
     Action MoveRIGHT;
 
     //other Variables
+
     protected int score = playerObj.getX();
 
-    public GameLogic() throws IOException {
-
+    public GameLogic() throws IOException, InterruptedException {
         for (int i = 0; i < 10; i++) {
             GameObject tmp;
-            tmp = new GameObject("Enemy", i * 300, randomNumber(), 100, randomNumber(), 0, Color.RED);
+            tmp = new GameObject("Enemy", i * 300, randomNumber(), 100, 5000, 0, Color.RED, playerImg);
             elements.add(tmp);
         }
 
@@ -87,8 +92,9 @@ public class GameLogic{
     public class MoveUP extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
+            playerObj.setX(200);
 
-            player.setLocation(player.getX(), player.getY() - playerObj.getSpeed());
+            //player.setLocation(player.getX(), player.getY() - playerObj.getSpeed());
             if (isOverlappingObstacle()) {
                 JOptionPane.showMessageDialog(game, "Game Over!");
                 System.exit(0);
@@ -149,5 +155,16 @@ public class GameLogic{
     public static int randomNumber() {
         int randomNum = ThreadLocalRandom.current().nextInt(50, 600 + 1);
         return randomNum;
+    }
+    private static Image loadImage(String path) {
+
+        Image result = null;
+        try {
+            result = ImageIO.read(new File(path));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

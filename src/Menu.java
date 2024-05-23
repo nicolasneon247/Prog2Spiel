@@ -62,7 +62,7 @@ public class Menu extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 try {
                     new GameLogic();
-                } catch (IOException ex) {
+                } catch (IOException | InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
             }

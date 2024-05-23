@@ -1,8 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
-public class GameObject{
+public class GameObject implements ImageObject{
 
     private String name;
     protected int x;
@@ -11,10 +12,11 @@ public class GameObject{
     protected int height;
     protected int speed; // in pixels per keypress
     protected JLabel entity;
+    protected Image image;
     protected Color color;
     protected static ArrayList<GameObject> objects = new ArrayList<>();
 
-    public GameObject(String name, int x, int y, int width, int height, int speed, Color color) {
+    public GameObject(String name, int x, int y, int width, int height, int speed, Color color, Image image) {
         super();
         this.name = name;
         this.x = x;
@@ -23,6 +25,7 @@ public class GameObject{
         this.height = height;
         this.speed = speed;
         this.color = color;
+        this.image = image;
 
 
         //entity als image darstellen damit es kein java swing ist
@@ -48,7 +51,7 @@ public class GameObject{
         return name;
     }
 
-
+@Override
     public int getX() {
         return x;
     }
@@ -56,6 +59,11 @@ public class GameObject{
 
     public int getY() {
         return y;
+    }
+
+    @Override
+    public Image getImage() {
+        return null;
     }
 
 
@@ -78,5 +86,20 @@ public class GameObject{
     public void deleteObject(GameObject object){
         objects.remove(object);
         object = null;
+    }
+
+    public void setX(int location) {
+        x = location;
+    }
+
+    public void setY(int location) {
+        y = location;
+    }
+
+    public void playerFall(GameObject object) throws InterruptedException {
+        while (true){
+            TimeUnit.MILLISECONDS.wait(500);
+            object.entity.setLocation(object.getX(), object.getY() + 1);
+        }
     }
 }
