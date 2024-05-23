@@ -53,12 +53,14 @@ public class GameObject implements ImageObject{
 
 @Override
     public int getX() {
-        return x;
+        //return x;
+        return this.entity.getX();
     }
 
 
     public int getY() {
-        return y;
+        //return y;
+        return this.entity.getY();
     }
 
     @Override
@@ -96,10 +98,17 @@ public class GameObject implements ImageObject{
         y = location;
     }
 
-    public void playerFall(GameObject object) throws InterruptedException {
-        while (true){
-            TimeUnit.MILLISECONDS.wait(500);
-            object.entity.setLocation(object.getX(), object.getY() + 1);
+    public Boolean isOverlappingObstacle() {
+        for (GameObject elm : objects) {
+            if (elm.getName().equals("Enemy")) {
+                boolean noOverlapX = this.getX() + this.getWidth() <= elm.getX() || this.getX() >= elm.getX() + elm.getWidth();
+                boolean noOverlapY = this.getY() + this.getHeight() <= elm.getY() || this.getY() >= elm.getY() + elm.getHeight();
+                if (!(noOverlapX || noOverlapY)) {
+                    return true;
+                }
+            }
         }
+        return false;
     }
+
 }

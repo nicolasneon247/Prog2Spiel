@@ -43,17 +43,21 @@ public class GameLogic{
     protected int score = playerObj.getX();
 
     public GameLogic() throws IOException, InterruptedException {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i < 10; i++) {
             GameObject tmp;
             tmp = new GameObject("Enemy", i * 300, randomNumber(), 100, 5000, 0, Color.RED, playerImg);
             elements.add(tmp);
         }
+        PlayerFallThread fall = new PlayerFallThread(playerObj, game);
+        fall.start();
+
+
 
         //Gamelogic
         MoveUP = new MoveUP();
-        MoveDOWN = new MoveDOWN();
-        MoveLEFT = new MoveLEFT();
-        MoveRIGHT = new MoveRIGHT();
+        //MoveDOWN = new MoveDOWN();
+        //MoveLEFT = new MoveLEFT();
+        //MoveRIGHT = new MoveRIGHT();
 
         InputMap im = player.getInputMap();
         ActionMap am = player.getActionMap();
@@ -63,24 +67,14 @@ public class GameLogic{
 
         //logic seperieren (bsp: Ocean App)
 
-        im.put(KeyStroke.getKeyStroke("W"), "up"); //pressed / released /typed vor den buchstaben
+        im.put(KeyStroke.getKeyStroke("SPACE"), "up"); //pressed / released /typed vor den buchstaben
         am.put("up", MoveUP);
-        im.put(KeyStroke.getKeyStroke("S"), "down");
-        am.put("down", MoveDOWN);
-        im.put(KeyStroke.getKeyStroke("A"), "left");
-        am.put("left", MoveLEFT);
-        im.put(KeyStroke.getKeyStroke("D"), "right");
-        am.put("right", MoveRIGHT);
-
-        im.put(KeyStroke.getKeyStroke("T"), "t");
-        am.put("t", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Idee: Alle gedrückten keys zur Liste hinzufügen, und beim loslassen wieder entfernen; anhand dessen player bewegen
-                //Key pressed, Key released funktion notwendig
-            }
-        });
-
+        //im.put(KeyStroke.getKeyStroke("S"), "down");
+        //am.put("down", MoveDOWN);
+        //im.put(KeyStroke.getKeyStroke("A"), "left");
+        //am.put("left", MoveLEFT);
+        //im.put(KeyStroke.getKeyStroke("D"), "right");
+        //am.put("right", MoveRIGHT);
 
         //Entitys
         elements.add(playerObj);
@@ -92,69 +86,58 @@ public class GameLogic{
     public class MoveUP extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
-            playerObj.setX(200);
-
-            //player.setLocation(player.getX(), player.getY() - playerObj.getSpeed());
-            if (isOverlappingObstacle()) {
-                JOptionPane.showMessageDialog(game, "Game Over!");
-                System.exit(0);
-            }
+            //playerObj.setX(200);
+            //player.setLocation(playerObj.getX(), playerObj.getY() - playerObj.getSpeed());
+            //if (playerObj.isOverlappingObstacle()) {
+            //    JOptionPane.showMessageDialog(game, "Game Over!");
+            //    System.exit(0);
+            //}
+            PlayerJumpThread jump = new PlayerJumpThread(playerObj, game);
+            jump.start();
         }
     }
 
-    public class MoveDOWN extends AbstractAction {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            player.setLocation(player.getX(), player.getY() + playerObj.getSpeed());
-            if (isOverlappingObstacle()) {
-                JOptionPane.showMessageDialog(game, "Game Over!");
-                System.exit(0);
-            }
-        }
-    }
-
-    public class MoveLEFT extends AbstractAction {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            player.setLocation(player.getX() - playerObj.getSpeed(), player.getY());
-            if (isOverlappingObstacle()) {
-                JOptionPane.showMessageDialog(game, "Game Over!");
-                System.exit(0);
-            }
-            if (score > 0) score = player.getX() / 50;
-            GameFrame.updateScore(String.valueOf(score));
-        }
-    }
-
-    public class MoveRIGHT extends AbstractAction {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            player.setLocation(player.getX() + playerObj.getSpeed(), player.getY());
-            if (isOverlappingObstacle()) {
-                JOptionPane.showMessageDialog(game, "Game Over!");
-                System.exit(0);
-            }
-            if (player.getX() >= 0) score = player.getX() / 50;
-            GameFrame.updateScore(String.valueOf(score));
-        }
-    }
-
-    public Boolean isOverlappingObstacle() {
-        for (GameObject elm : elements) {
-            if (elm.getName().equals("Enemy")) {
-                boolean noOverlapX = player.getX() + player.getWidth() <= elm.getX() || player.getX() >= elm.getX() + elm.getWidth();
-                boolean noOverlapY = player.getY() + player.getHeight() <= elm.getY() || player.getY() >= elm.getY() + elm.getHeight();
-                if (!(noOverlapX || noOverlapY)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+//    public class MoveDOWN extends AbstractAction {
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            PlayerFallThread fall = new PlayerFallThread(playerObj);
+//            fall.start();
+//            //player.setLocation(player.getX(), player.getY() + playerObj.getSpeed());
+//            if (isOverlappingObstacle()) {
+//                JOptionPane.showMessageDialog(game, "Game Over!");
+//                System.exit(0);
+//            }
+//        }
+//    }
+//
+//    public class MoveLEFT extends AbstractAction {
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            player.setLocation(player.getX() - playerObj.getSpeed(), player.getY());
+//            if (isOverlappingObstacle()) {
+//                JOptionPane.showMessageDialog(game, "Game Over!");
+//                System.exit(0);
+//            }
+//            if (score > 0) score = player.getX() / 50;
+//            GameFrame.updateScore(String.valueOf(score));
+//        }
+//    }
+//
+//    public class MoveRIGHT extends AbstractAction {
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            player.setLocation(player.getX() + playerObj.getSpeed(), player.getY());
+//            if (isOverlappingObstacle()) {
+//                JOptionPane.showMessageDialog(game, "Game Over!");
+//                System.exit(0);
+//            }
+//            if (player.getX() >= 0) score = player.getX() / 50;
+//            GameFrame.updateScore(String.valueOf(score));
+//        }
+//    }
 
     public static int randomNumber() {
-        int randomNum = ThreadLocalRandom.current().nextInt(50, 600 + 1);
-        return randomNum;
+        return ThreadLocalRandom.current().nextInt(50, 600 + 1);
     }
     private static Image loadImage(String path) {
 
