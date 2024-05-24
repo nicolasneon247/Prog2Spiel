@@ -20,7 +20,7 @@ import java.awt.Image;
 
 public class GameLogic{
 
-    protected JPanel game;
+    public static JPanel game;
     protected ArrayList<String> moveBtns = new ArrayList<>();
     protected static ArrayList<GameObject> elements = new ArrayList<>();
     Image playerImg = loadImage("Prog2Spiel/bird.jpg");
@@ -29,14 +29,9 @@ public class GameLogic{
     GameObject playerObj = new GameObject("Player", 50, 50, 100, 100, 50, Color.GREEN, playerImg);
     protected JLabel player = playerObj.getEntity();
 
-    //GameObject enemyObj = new GameObject("Enemy", 500, 500, 100, 300, 0, Color.RED);
-    //protected JLabel enemy = enemyObj.getEntity();
 
     //MoveActions
     Action MoveUP;
-    Action MoveDOWN;
-    Action MoveLEFT;
-    Action MoveRIGHT;
 
     //other Variables
 
@@ -48,16 +43,13 @@ public class GameLogic{
             tmp = new GameObject("Enemy", i * 300, randomNumber(), 100, 5000, 0, Color.RED, playerImg);
             elements.add(tmp);
         }
-        PlayerFallThread fall = new PlayerFallThread(playerObj, game);
+        PlayerFallThread fall = new PlayerFallThread(playerObj);
         fall.start();
 
 
 
         //Gamelogic
         MoveUP = new MoveUP();
-        //MoveDOWN = new MoveDOWN();
-        //MoveLEFT = new MoveLEFT();
-        //MoveRIGHT = new MoveRIGHT();
 
         InputMap im = player.getInputMap();
         ActionMap am = player.getActionMap();
@@ -69,12 +61,6 @@ public class GameLogic{
 
         im.put(KeyStroke.getKeyStroke("SPACE"), "up"); //pressed / released /typed vor den buchstaben
         am.put("up", MoveUP);
-        //im.put(KeyStroke.getKeyStroke("S"), "down");
-        //am.put("down", MoveDOWN);
-        //im.put(KeyStroke.getKeyStroke("A"), "left");
-        //am.put("left", MoveLEFT);
-        //im.put(KeyStroke.getKeyStroke("D"), "right");
-        //am.put("right", MoveRIGHT);
 
         //Entitys
         elements.add(playerObj);
@@ -86,55 +72,10 @@ public class GameLogic{
     public class MoveUP extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //playerObj.setX(200);
-            //player.setLocation(playerObj.getX(), playerObj.getY() - playerObj.getSpeed());
-            //if (playerObj.isOverlappingObstacle()) {
-            //    JOptionPane.showMessageDialog(game, "Game Over!");
-            //    System.exit(0);
-            //}
-            PlayerJumpThread jump = new PlayerJumpThread(playerObj, game);
+            PlayerJumpThread jump = new PlayerJumpThread(playerObj);
             jump.start();
         }
     }
-
-//    public class MoveDOWN extends AbstractAction {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            PlayerFallThread fall = new PlayerFallThread(playerObj);
-//            fall.start();
-//            //player.setLocation(player.getX(), player.getY() + playerObj.getSpeed());
-//            if (isOverlappingObstacle()) {
-//                JOptionPane.showMessageDialog(game, "Game Over!");
-//                System.exit(0);
-//            }
-//        }
-//    }
-//
-//    public class MoveLEFT extends AbstractAction {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            player.setLocation(player.getX() - playerObj.getSpeed(), player.getY());
-//            if (isOverlappingObstacle()) {
-//                JOptionPane.showMessageDialog(game, "Game Over!");
-//                System.exit(0);
-//            }
-//            if (score > 0) score = player.getX() / 50;
-//            GameFrame.updateScore(String.valueOf(score));
-//        }
-//    }
-//
-//    public class MoveRIGHT extends AbstractAction {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            player.setLocation(player.getX() + playerObj.getSpeed(), player.getY());
-//            if (isOverlappingObstacle()) {
-//                JOptionPane.showMessageDialog(game, "Game Over!");
-//                System.exit(0);
-//            }
-//            if (player.getX() >= 0) score = player.getX() / 50;
-//            GameFrame.updateScore(String.valueOf(score));
-//        }
-//    }
 
     public static int randomNumber() {
         return ThreadLocalRandom.current().nextInt(50, 600 + 1);
