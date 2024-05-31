@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.Struct;
+import java.util.Objects;
 
 public class GameFrame extends JFrame {
 
@@ -70,7 +72,14 @@ public class GameFrame extends JFrame {
             }
         });
     }
-    public static void updateScore(String score){
-        scoreNumber.setText(score);
+    public static void updateScore(int score){
+        scoreNumber.setText(Integer.toString(score));
     }
+    public static int getScore(){
+        if (scoreNumber != null){
+            return Integer.parseInt(scoreNumber.getText());
+        }
+        return 0;
+    }
+
 }

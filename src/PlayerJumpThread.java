@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.io.IOException;
 
 public class PlayerJumpThread extends Thread{
 
@@ -12,7 +13,11 @@ public class PlayerJumpThread extends Thread{
 
         for(int i = 0; i < 100; i++){
             player.entity.setLocation(player.getX(), player.getY() - 1);
-            player.OverlappingObstacle();
+            try {
+                player.OverlappingObstacle();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {

@@ -1,22 +1,23 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.Objects;
 
 public class Menu extends JFrame {
     private JButton start;
-    private JButton difficulty;
+    public static JButton difficulty;
     private JButton exit;
-    private final String[] difficultys = {"LEICHT", "NORMAL", "SCHWER", "EXTREM"};
+    public static final String[] difficultys = {"LEICHT", "NORMAL", "SCHWER", "EXTREM"};
     private final Color[] colors = {Color.green, Color.orange, Color.RED, Color.BLUE};
     private int currentDifficulty = 0;
     private JPanel buttonPanel;
+    private JLabel highScore;
+    private final JLabel highScoreText;
+    private JPanel highScorePanel;
 
     public Menu(String title) throws IOException {
         super(title);
@@ -30,6 +31,27 @@ public class Menu extends JFrame {
 
         BufferedImage bufferedImage = ImageIO.read(new File("Prog2Spiel/Flappy_Logo.png")); //Hier eigenes Logo einfügen
         JLabel header = new JLabel(new ImageIcon(bufferedImage));
+
+        highScoreText = new JLabel("Highscore: ");
+        highScoreText.setFont(new Font("Arial", Font.BOLD, 40));
+        highScoreText.setForeground(Color.BLUE);
+        highScoreText.setOpaque(true);
+
+        highScore = new JLabel(readHighscore());
+        highScore.setFont(new Font("Arial", Font.BOLD, 40));
+        highScore.setForeground(Color.BLUE);
+        highScore.setOpaque(true);
+
+        highScorePanel = new JPanel();
+        highScorePanel.setLayout(new BoxLayout(highScorePanel, BoxLayout.LINE_AXIS));
+        highScorePanel.add(Box.createRigidArea(new Dimension(15, 50)));
+        highScorePanel.add(highScoreText);
+        highScorePanel.add(Box.createRigidArea(new Dimension(5, 50)));
+        highScorePanel.add(highScore);
+
+        contentPane.add(highScorePanel, BorderLayout.SOUTH);
+
+
         contentPane.add(header, BorderLayout.NORTH);
 
     }
@@ -130,5 +152,13 @@ public class Menu extends JFrame {
         menu.setVisible(true);
         menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         menu.setSize(new Dimension(900,700));
+    }
+    public static String readHighscore() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader("Prog2Spiel/highscore.txt"));
+        //if(Objects.nonNull(br.readLine())){
+        //    return br.readLine();
+        //}
+        //return "0";
+        return br.readLine();
     }
 }

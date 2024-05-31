@@ -1,13 +1,13 @@
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.font.GraphicAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.io.BufferedWriter;
+import java.util.Objects;
 
 public class GameObject implements ImageObject{
 
@@ -21,8 +21,9 @@ public class GameObject implements ImageObject{
     protected Image image;
     protected Color color;
     protected static ArrayList<GameObject> objects = new ArrayList<>();
+    protected BufferedWriter bw;
 
-    public GameObject(String name, int x, int y, int width, int height, int speed, Color color, Image image) throws IOException {
+    public GameObject(String name, int x, int y, int width, int height, int speed, Color color) throws IOException {
         super();
         this.name = name;
         this.x = x;
@@ -31,12 +32,11 @@ public class GameObject implements ImageObject{
         this.height = height;
         this.speed = speed;
         this.color = color;
-        this.image = image;
 
         BufferedImage Pimg = null;
         BufferedImage Eimg = null;
         try {
-            Pimg = ImageIO.read(new File("Prog2Spiel/PikPng.com_dragon-tail-png_5611935.png"));
+            Pimg = ImageIO.read(new File("Prog2Spiel/Robo.gif")); //Zeigt gif als standbild an
             Eimg = ImageIO.read(new File("Prog2Spiel/Unbenannt-1.png"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,6 +47,8 @@ public class GameObject implements ImageObject{
             Image dimg = Pimg.getScaledInstance(width, height, BufferedImage.TYPE_INT_ARGB);
 
             ImageIcon icon = new ImageIcon(dimg);
+
+            //ImageIcon icon = new ImageIcon(this.getClass().getResource("Prog2Spiel/Robo.gif"));
 
             entity = new JLabel();
             entity.setIcon(icon);
@@ -135,17 +137,29 @@ public class GameObject implements ImageObject{
         y = location;
     }
 
-    public void OverlappingObstacle() {
+    public void OverlappingObstacle() throws IOException {
         for (GameObject elm : objects) {
             if (elm.getName().equals("Enemy")) {
                 boolean noOverlapX = this.getX() + this.getWidth() <= elm.getX() || this.getX() >= elm.getX() + elm.getWidth();
                 boolean noOverlapY = this.getY() + this.getHeight() <= elm.getY() || this.getY() >= elm.getY() + elm.getHeight();
-                if (!(noOverlapX || noOverlapY)) {
+                boolean notHitGround = this.getY() > 1000;
+                if (!(noOverlapX || noOverlapY || notHitGround)) {
+                    UpdateScoreThread.running = false;
                     JOptionPane.showMessageDialog(GameLogic.game, "Game Over!");
+                    writeHighscore(GameFrame.getScore());
                     System.exit(0);
                 }
             }
         }
     }
 
+    public void writeHighscore(Integer score) throws IOException {
+        bw = new BufferedWriter(new FileWriter("Prog2Spiel/highscore.txt"));
+        //int correctedScore = Integer.parseInt(score) - 1;
+        //bw.write(Integer.toString(correctedScore));
+        //System.out.println(Menu.readHighscore());
+        //System.out.println(Menu.readHighscore() == null);
+            bw.write((String.valueOf(score))); //schreibt aktuell jeden score rein, nicht nur den höchsten //if score > read dann write
+            bw.flush();
+    }
 }
