@@ -1,21 +1,12 @@
-import org.w3c.dom.html.HTMLImageElement;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 import java.awt.Image;
 
 public class GameLogic{
@@ -23,10 +14,10 @@ public class GameLogic{
     public static JPanel game;
     protected ArrayList<String> moveBtns = new ArrayList<>();
     protected static ArrayList<GameObject> elements = new ArrayList<>();
-    Image playerImg = loadImage("Prog2Spiel/bird.jpg");
+    Image playerImg = loadImage("Prog2Spiel/Sprite-0003.png");
 
     //Game Objects
-    GameObject playerObj = new GameObject("Player", 50, 50, 100, 100, 50, Color.GREEN, playerImg);
+    GameObject playerObj = new GameObject("Player", 50, 50, 100, 100, 50, Color.GREEN);
     protected JLabel player = playerObj.getEntity();
 
 
@@ -38,15 +29,18 @@ public class GameLogic{
     protected int score = playerObj.getX();
 
     public GameLogic() throws IOException, InterruptedException {
-        for (int i = 1; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             GameObject tmp;
-            tmp = new GameObject("Enemy", i * 300, randomNumber(), 100, 5000, 0, Color.RED, playerImg);
+            tmp = new GameObject("Enemy", i * 300, randomNumber(), 100, 5000, 0, Color.RED);
             elements.add(tmp);
         }
-        PlayerFallThread fall = new PlayerFallThread(playerObj);
-        fall.start();
 
+        //Threads
+        PlayerFallThread fallThread = new PlayerFallThread(playerObj);
+        fallThread.start();
 
+        UpdateScoreThread scoreThread = new UpdateScoreThread();
+        scoreThread.start();
 
         //Gamelogic
         MoveUP = new MoveUP();

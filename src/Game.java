@@ -8,10 +8,13 @@ import java.util.ArrayList;
 
 public class Game extends JPanel{
 
+    public static String currentScore;
     protected JPanel game;
     public Game(ArrayList<GameObject> elements, String score) throws IOException {
         game = new JPanel();
         game.setLayout(null);
+
+        currentScore = score;
 
         BufferedImage bufferedImage = ImageIO.read(new File("Prog2Spiel/Background.jpg")); //Bild zu groß (beispielbild)
         JLabel background = new JLabel(new ImageIcon(bufferedImage));

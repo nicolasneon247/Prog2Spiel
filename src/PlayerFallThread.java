@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.io.IOException;
+
 public class PlayerFallThread extends Thread{
 
     protected GameObject player;
@@ -15,7 +17,12 @@ public class PlayerFallThread extends Thread{
                 throw new RuntimeException(e);
             }
             player.entity.setLocation(player.getX(), player.getY() + 1);
-            player.OverlappingObstacle();
+            try {
+                player.OverlappingObstacle();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 }
