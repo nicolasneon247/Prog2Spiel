@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.io.BufferedWriter;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameObject implements ImageObject{
 
@@ -21,6 +22,8 @@ public class GameObject implements ImageObject{
     protected Image image;
     protected Color color;
     protected static ArrayList<GameObject> objects = new ArrayList<>();
+    //public static ArrayList<GameObject> enemys = new ArrayList<>();
+    public static CopyOnWriteArrayList<GameObject> enemys = new CopyOnWriteArrayList<>();
     protected BufferedWriter bw;
 
     public GameObject(String name, int x, int y, int width, int height, int speed, Color color) throws IOException {
@@ -81,6 +84,9 @@ public class GameObject implements ImageObject{
             entity.repaint();
         }
         objects.add(this);
+        if(this.name == "Enemy"){
+            enemys.add(this);
+        }
     }
 
     public JLabel getEntity() {
@@ -124,9 +130,11 @@ public class GameObject implements ImageObject{
         this.speed = speed;
     }
 
-    public void deleteObject(GameObject object){
+    public void deleteObject(GameObject object) {
+        GameFrame.game.remove(object.getEntity());
+        GameFrame.game.repaint();
         objects.remove(object);
-        object = null;
+        enemys.remove(object);
     }
 
     public void setX(int location) {
@@ -138,12 +146,13 @@ public class GameObject implements ImageObject{
     }
 
     public void OverlappingObstacle() throws IOException {
+
         for (GameObject elm : objects) {
             if (elm.getName().equals("Enemy")) {
                 boolean noOverlapX = this.getX() + this.getWidth() <= elm.getX() || this.getX() >= elm.getX() + elm.getWidth();
                 boolean noOverlapY = this.getY() + this.getHeight() <= elm.getY() || this.getY() >= elm.getY() + elm.getHeight();
-                boolean notHitGround = this.getY() > 1000;
-                if (!(noOverlapX || noOverlapY || notHitGround)) {
+                boolean noHitGround = this.getY() < 700;
+                if ((!noOverlapX && !noOverlapY) || !noHitGround) {
                     UpdateScoreThread.running = false;
                     JOptionPane.showMessageDialog(GameLogic.game, "Game Over!");
                     writeHighscore(GameFrame.getScore());

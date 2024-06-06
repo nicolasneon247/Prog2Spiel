@@ -28,6 +28,7 @@ public class Game extends JPanel{
         for(GameObject elm : elements){
             game.add(elm.getEntity());
         }
+
         //start Game
         launchGame(game, score);
     }

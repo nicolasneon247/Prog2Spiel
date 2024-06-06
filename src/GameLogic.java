@@ -29,13 +29,23 @@ public class GameLogic{
     protected int score = playerObj.getX();
 
     public GameLogic() throws IOException, InterruptedException {
-        for (int i = 0; i < 10; i++) {
-            GameObject tmp;
-            tmp = new GameObject("Enemy", i * 300, randomNumber(), 100, 5000, 0, Color.RED);
-            elements.add(tmp);
-        }
+//        for (int i = 2; i < 4; i++) {
+//            GameObject bottom;
+//            bottom = new GameObject("Enemy", i * 500, randomNumber(), 100, 5000, 0, Color.RED);
+//            elements.add(bottom);
+//        }
+//        for (int i = 1; i < 10; i++){
+//            GameObject top;
+//            top = new GameObject("Enemy", i * 300, 0, 100,100, 0, Color.RED);
+//            elements.add(top);
+//        }
+
+
 
         //Threads
+        ObjectsMoveThread ObjectsMoveThread = new ObjectsMoveThread(playerObj);
+        ObjectsMoveThread.start();
+
         PlayerFallThread fallThread = new PlayerFallThread(playerObj);
         fallThread.start();
 
@@ -61,6 +71,7 @@ public class GameLogic{
         //elements.add(enemy);
         //start Game
         new Game(elements, String.valueOf(score));
+        createEnemy("Enemy");
     }
 
     public class MoveUP extends AbstractAction {
@@ -69,10 +80,6 @@ public class GameLogic{
             PlayerJumpThread jump = new PlayerJumpThread(playerObj);
             jump.start();
         }
-    }
-
-    public static int randomNumber() {
-        return ThreadLocalRandom.current().nextInt(50, 600 + 1);
     }
     private static Image loadImage(String path) {
 
@@ -84,5 +91,24 @@ public class GameLogic{
             e.printStackTrace();
         }
         return result;
+    }
+    public static void createEnemy(String name) throws IOException {
+        int gap = 230;
+        int enemyWidth = 100;
+        int enemyHeight = 1000;
+        int maxY = 650;
+        int minY = 200;
+
+        int bottomY = randomNumber(minY,maxY);
+        GameObject enemyBot = new GameObject(name, 1500, bottomY, enemyWidth, enemyHeight, 0, Color.RED);
+
+        int topY = bottomY - (enemyHeight + gap);
+        GameObject enemyTop = new GameObject(name, 1500, topY, enemyWidth, enemyHeight, 0, Color.RED);
+
+        GameFrame.game.add(enemyBot.getEntity());
+        GameFrame.game.add(enemyTop.getEntity());
+    }
+    public static int randomNumber(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 }

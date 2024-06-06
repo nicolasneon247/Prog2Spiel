@@ -14,9 +14,11 @@ public class GameFrame extends JFrame {
     private static JButton menuButton;
     private static JPanel south;
     private static JPanel scorePanel;
+    public static JPanel game;
 
     public GameFrame(String title, JPanel game, String score){
         super(title);
+        this.game = game;
 
         Container contentPane = getContentPane();
         setResizable(false);
@@ -81,5 +83,6 @@ public class GameFrame extends JFrame {
         }
         return 0;
     }
+
 
 }
