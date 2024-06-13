@@ -17,7 +17,6 @@ public class GameObject implements ImageObject{
     protected int y;
     protected int width;
     protected int height;
-    protected int speed; // in pixels per keypress
     protected JLabel entity;
     protected Image image;
     protected static ArrayList<GameObject> objects = new ArrayList<>();
@@ -26,7 +25,7 @@ public class GameObject implements ImageObject{
     protected BufferedWriter bw;
 
 
-    public GameObject(String name, int x, int y, int width, int height, int speed) {
+    public GameObject(String name, int x, int y, int width, int height) {
 
         //Player und Enemy Seperieren
 
@@ -36,13 +35,12 @@ public class GameObject implements ImageObject{
         this.y = y;
         this.width = width;
         this.height = height;
-        this.speed = speed;
 
         ImageIcon Pimg = null;
         BufferedImage Eimg = null;
         try {
             Pimg = new ImageIcon("Prog2Spiel/Robo.gif");
-            Eimg = ImageIO.read(new File("Prog2Spiel/´test3.png"));
+            Eimg = ImageIO.read(new File("Prog2Spiel/Unbenannt-1.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -122,13 +120,6 @@ public class GameObject implements ImageObject{
         return height;
     }
 
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
 
     public void deleteObject(GameObject object) {
         GameFrame.game.remove(object.getEntity());
@@ -163,13 +154,11 @@ public class GameObject implements ImageObject{
     }
 
     public void writeHighscore(int score) throws IOException {
-        bw = new BufferedWriter(new FileWriter("Prog2Spiel/highscore.txt"));
-
-        String scoreValue = String.valueOf(score);
-
-        if(Integer.parseInt(Menu.readHighscore()) < Integer.parseInt(scoreValue)) {
-            bw.write(scoreValue); //schreibt aktuell jeden score rein, nicht nur den höchsten //if score > read dann write
-            bw.flush();
+        int currentHighscore = Integer.parseInt(Menu.readHighscore());
+        if (score > currentHighscore) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter("Prog2Spiel/highscore.txt"))) {
+                bw.write(String.valueOf(score));
+            }
         }
     }
 }

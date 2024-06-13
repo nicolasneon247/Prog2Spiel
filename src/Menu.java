@@ -24,11 +24,12 @@ public class Menu extends JFrame {
         Container contentPane = getContentPane();
         setResizable(false);
 
+
         initializeButtons();
         contentPane.add(buttonPanel, BorderLayout.CENTER);
 
 
-        BufferedImage bufferedImage = ImageIO.read(new File("Prog2Spiel/Flappy_Logo.png")); //Hier eigenes Logo einfügen
+        BufferedImage bufferedImage = ImageIO.read(new File("Prog2Spiel/LOGONEU.png")); //Hier eigenes Logo einfügen
         JLabel header = new JLabel(new ImageIcon(bufferedImage));
 
         highScoreText = new JLabel("Highscore: ");

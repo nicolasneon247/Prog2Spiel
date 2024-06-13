@@ -22,6 +22,7 @@ public class Game extends JPanel{
         background.setOpaque(true);
         game.add(background);
 
+
         game.setBackground(Color.darkGray);
 
         //Entitys

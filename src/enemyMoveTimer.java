@@ -3,13 +3,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class timer {
+public class enemyMoveTimer {
     protected GameObject player;
     protected int timer = 0;
     protected int enemyCreationInterval = 3000;
     protected Timer moveTimer;
 
-    public timer(GameObject player) {
+    public enemyMoveTimer(GameObject player) {
         this.player = player;
         int delay = getDelayBasedOnDifficulty(Menu.difficulty.getText());
         moveTimer = new Timer(delay, new MoveAction());
@@ -19,7 +19,7 @@ public class timer {
     private int getDelayBasedOnDifficulty(String difficulty) {
         switch (difficulty) {
             case "LEICHT":
-                return 10;
+                return 8;
             case "NORMAL":
                 return 5;
             case "SCHWER":
