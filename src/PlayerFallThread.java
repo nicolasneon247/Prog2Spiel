@@ -1,12 +1,11 @@
-import javax.swing.*;
 import java.io.IOException;
 
 public class PlayerFallThread extends Thread{
 
-    protected GameObject player;
+    protected Player player;
     public volatile boolean running = true;
 
-    public PlayerFallThread(GameObject player){
+    public PlayerFallThread(Player player){
         this.player = player;
     }
     public void run(){

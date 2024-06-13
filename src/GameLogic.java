@@ -12,7 +12,7 @@ public class GameLogic{
     protected static ArrayList<GameObject> elements = new ArrayList<>();
 
     //Game Objects
-    GameObject playerObj = new GameObject("Player", 50, 50, 100, 100);
+    Player playerObj = new Player(50, 50, 100, 100);
 
     //MoveActions
     Action MoveUP;
@@ -23,10 +23,12 @@ public class GameLogic{
     public GameLogic() throws IOException, InterruptedException {
 
         //Motion
-        new enemyMoveTimer(playerObj);
+        new EnemyMoveTimer(playerObj);
+        PlayerFallTimer pft = new PlayerFallTimer(playerObj); //ruckelt
+        pft.start();
 
-        PlayerFallThread fallThread = new PlayerFallThread(playerObj);
-        fallThread.start();
+        //PlayerFallThread fallThread = new PlayerFallThread(playerObj);
+        //fallThread.start();
 
         UpdateScoreThread scoreThread = new UpdateScoreThread();
         scoreThread.start();
@@ -50,7 +52,7 @@ public class GameLogic{
         //elements.add(enemy);
         //start Game
         new Game(elements, String.valueOf(score));
-        createEnemy("Enemy");
+        createEnemy();
 
     }
 
@@ -72,7 +74,7 @@ public class GameLogic{
         }
         return result;
     }
-    public static void createEnemy(String name) throws IOException {
+    public static void createEnemy() throws IOException {
         int gap = 300;
         int enemyWidth = 150;
         int enemyHeight = 1000;
@@ -80,10 +82,10 @@ public class GameLogic{
         int minY = 200;
 
         int bottomY = randomNumber(minY, maxY);
-        GameObject enemyBot = new GameObject(name, 1200, bottomY, enemyWidth, enemyHeight);
+        GameObject enemyBot = new Enemy(1200, bottomY, enemyWidth, enemyHeight);
 
         int topY = bottomY - (enemyHeight + gap);
-        GameObject enemyTop = new GameObject(name, 1200, topY, enemyWidth, enemyHeight);
+        GameObject enemyTop = new Enemy(1200, topY, enemyWidth, enemyHeight);
 
         GameFrame.game.add(enemyBot.getEntity());
         GameFrame.game.add(enemyTop.getEntity());

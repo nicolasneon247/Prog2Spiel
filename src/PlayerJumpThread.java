@@ -1,12 +1,11 @@
-import javax.swing.*;
 import java.io.IOException;
 
 public class PlayerJumpThread extends Thread{
 
-    protected GameObject player;
+    protected Player player;
 
 
-    public PlayerJumpThread(GameObject player){
+    public PlayerJumpThread(Player player){
         this.player = player;
     }
     public void run(){
