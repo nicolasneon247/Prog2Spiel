@@ -28,8 +28,11 @@ public class GameLogic{
         PlayerFallThread fallThread = new PlayerFallThread(playerObj);
         fallThread.start();
 
-        UpdateScoreThread scoreThread = new UpdateScoreThread();
-        scoreThread.start();
+        //UpdateScoreThread scoreThread = new UpdateScoreThread();
+        //scoreThread.start();
+
+        UpdateHighscoreTimer ust = new UpdateHighscoreTimer();
+        ust.startTimer();
 
         //Gamelogic
         MoveUP = new MoveUP();
