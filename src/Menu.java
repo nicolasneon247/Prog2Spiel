@@ -5,7 +5,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Objects;
 
 public class Menu extends JFrame {
     private JButton start;
@@ -153,12 +152,18 @@ public class Menu extends JFrame {
         menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         menu.setSize(new Dimension(900,700));
     }
-    public static String readHighscore() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("Prog2Spiel/highscore.txt"));
-        //if(Objects.nonNull(br.readLine())){
-        //    return br.readLine();
-        //}
-        //return "0";
-        return br.readLine();
+    public static String readHighscore() {
+        File file = new File("Prog2Spiel/highscore.txt");
+        if (!file.exists()) {
+            return "0";
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line = br.readLine();
+            return (line != null) ? line : "0";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "0";
+        }
     }
 }

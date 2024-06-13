@@ -1,11 +1,7 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.sql.Struct;
-import java.util.Objects;
 
 public class GameFrame extends JFrame {
 

@@ -12,6 +12,9 @@ public class ObjectsMoveThread extends Thread{
     }
 
     public void run(){
+
+        //mit java x swing timer lösen
+
         while (running) {
             timer += 5;
             try {
