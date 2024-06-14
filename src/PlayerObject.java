@@ -4,6 +4,8 @@ import java.io.IOException;
 
 class Player extends GameObject {
 
+    public static boolean checkForCollision = true;
+
     public Player(int x, int y, int width, int height) {
         super("Player", x, y, width, height);
 
@@ -29,16 +31,20 @@ class Player extends GameObject {
             entity.repaint();
         }
     }
+
     public void OverlappingObstacle() throws IOException {
-        for (GameObject elm : enemys) {
-            boolean noOverlapX = this.getX() + this.getWidth() <= elm.getX() || this.getX() >= elm.getX() + elm.getWidth();
-            boolean noOverlapY = this.getY() + this.getHeight() <= elm.getY() || this.getY() >= elm.getY() + elm.getHeight();
-            boolean noHitGround = this.getY() < 700;
-            if ((!noOverlapX && !noOverlapY) || !noHitGround) {
-                UpdateScoreThread.running = false;
-                JOptionPane.showMessageDialog(GameFrame.game, "Game Over!");
-                writeHighscore(GameFrame.getScore());
-                System.exit(0);
+        if (checkForCollision) {
+            for (GameObject elm : enemys) {
+                boolean noOverlapX = this.getX() + this.getWidth() <= elm.getX() || this.getX() >= elm.getX() + elm.getWidth();
+                boolean noOverlapY = this.getY() + this.getHeight() <= elm.getY() || this.getY() >= elm.getY() + elm.getHeight();
+                boolean noHitGround = this.getY() < 850;
+                if ((!noOverlapX && !noOverlapY) || !noHitGround) {
+                    UpdateScoreThread.running = false;
+                    GameLogic.ust.stopTimer();
+                    JOptionPane.showMessageDialog(GameFrame.game, "Game Over!");
+                    writeHighscore(GameFrame.getScore());
+                    System.exit(0);
+                }
             }
         }
     }

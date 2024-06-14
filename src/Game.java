@@ -6,43 +6,65 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Game extends JPanel{
+public class Game extends JPanel {
 
     public static String currentScore;
-    protected JPanel game;
-    public Game(ArrayList<GameObject> elements, String score) throws IOException {
-        game = new JPanel();
+    protected static JPanel game;
+    private final BackgroundImagePanel backgroundImagePanel;
+
+    public Game(ArrayList<GameObject> elements, String score) {
+        backgroundImagePanel = new BackgroundImagePanel("Prog2Spiel/BG.png");
+        game = backgroundImagePanel;
         game.setLayout(null);
 
         currentScore = score;
 
-        BufferedImage bufferedImage = ImageIO.read(new File("Prog2Spiel/Background.jpg")); //Bild zu groß (beispielbild)
-        JLabel background = new JLabel(new ImageIcon(bufferedImage));
-        background.repaint();
-        background.setOpaque(true);
-        game.add(background);
-
-
-        game.setBackground(Color.darkGray);
-
-        //Entitys
-        for(GameObject elm : elements){
+        // Entities
+        for (GameObject elm : elements) {
             game.add(elm.getEntity());
         }
 
-        //start Game
-        launchGame(game, score);
+        // start Game
+        launchGame(game);
     }
 
-    public void launchGame(JPanel game, String score){
-        GameFrame launchGame = new GameFrame("Flappy Bird", game, score);
+    public void updateBackgroundImage(String newImagePath) {
+        backgroundImagePanel.setBackgroundImage(newImagePath);
+        backgroundImagePanel.repaint();
+    }
+
+    public void launchGame(JPanel game) {
+        GameFrame launchGame = new GameFrame("Flappy Bird", game);
         launchGame.setVisible(true);
         launchGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        launchGame.setResizable(true); //vielleicht false setzen
-        launchGame.setSize(new Dimension(1920,925));//richtige Fenstergröße muss noch gefunden werden
+        launchGame.setResizable(true); // vielleicht false setzen
+        launchGame.setSize(new Dimension(1920, 1080)); // richtige Fenstergröße muss noch gefunden werden
 
-        //launchGame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //launchGame.setUndecorated(true);
+        // launchGame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        // launchGame.setUndecorated(true);
+    }
 
+    private class BackgroundImagePanel extends JPanel {
+        private BufferedImage backgroundImage;
+
+        public BackgroundImagePanel(String imgPath) {
+            setBackgroundImage(imgPath);
+        }
+
+        public void setBackgroundImage(String imgPath) {
+            try {
+                backgroundImage = ImageIO.read(new File(imgPath));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (backgroundImage != null) {
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        }
     }
 }

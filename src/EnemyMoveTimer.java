@@ -1,4 +1,4 @@
-import javax.swing.Timer;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -57,7 +57,7 @@ public class EnemyMoveTimer {
             }
 
             for (GameObject enemy : GameObject.enemys) {
-                if (enemy.getX() == -100) {
+                if (enemy.getX() == -200) {
                     enemy.deleteObject(enemy);
                 }
             }

@@ -5,9 +5,9 @@ import java.io.IOException;
 
 public class PlayerFallTimer {
 
-    protected Player player;
-    private Timer timer;
     private static final int DELAY = 5;
+    protected Player player;
+    private final Timer timer;
 
     public PlayerFallTimer(Player player) {
         this.player = player;

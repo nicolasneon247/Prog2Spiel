@@ -7,12 +7,16 @@ import java.io.IOException;
 
 class Enemy extends GameObject {
 
-    public Enemy(int x, int y, int width, int height) {
+    public Enemy(int x, int y, int width, int height, boolean isTop) {
         super("Enemy", x, y, width, height);
 
         BufferedImage Eimg = null;
         try {
-            Eimg = ImageIO.read(new File("Prog2Spiel/Unbenannt-1.png"));
+            if (isTop) {
+                Eimg = ImageIO.read(new File("Prog2Spiel/Sprite-Baum_TOP.png"));
+            } else {
+                Eimg = ImageIO.read(new File("Prog2Spiel/Sprite-Baum.png"));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

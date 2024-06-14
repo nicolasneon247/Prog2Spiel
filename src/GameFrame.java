@@ -5,16 +5,17 @@ import java.awt.event.MouseEvent;
 
 public class GameFrame extends JFrame {
 
-    private static JLabel scoreText;
-    private static JLabel scoreNumber;
+    public static JLabel scoreText;
+    public static JLabel scoreNumber;
+    public static JLabel HighscoreLabel;
+    public static JPanel scorePanel;
+    public static JPanel game;
     private static JButton menuButton;
     private static JPanel south;
-    private static JPanel scorePanel;
-    public static JPanel game;
 
-    public GameFrame(String title, JPanel game, String score){
+    public GameFrame(String title, JPanel game) {
         super(title);
-        this.game = game;
+        GameFrame.game = game;
 
         Container contentPane = getContentPane();
         setResizable(false);
@@ -24,7 +25,19 @@ public class GameFrame extends JFrame {
         contentPane.add(scorePanel, BorderLayout.NORTH);
         contentPane.add(game, BorderLayout.CENTER);
     }
-    public void initializeButtons(){
+
+    public static void updateScore(int score) {
+        scoreNumber.setText(Integer.toString(score));
+    }
+
+    public static int getScore() {
+        if (scoreNumber != null) {
+            return Integer.parseInt(scoreNumber.getText());
+        }
+        return 0;
+    }
+
+    public void initializeButtons() {
         menuButton = new JButton("Menu");
         menuButton.setFont(new Font("Arial", Font.BOLD, 40));
         menuButton.setForeground(Color.BLUE);
@@ -47,6 +60,11 @@ public class GameFrame extends JFrame {
         scoreNumber.setForeground(Color.GREEN);
         scoreNumber.setOpaque(true);
 
+        HighscoreLabel = new JLabel("NEUER HIGHSCORE!");
+        HighscoreLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        HighscoreLabel.setForeground(Color.black);
+        HighscoreLabel.setOpaque(true);
+
         scorePanel = new JPanel();
         scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.LINE_AXIS));
         scorePanel.add(scoreText);
@@ -57,27 +75,21 @@ public class GameFrame extends JFrame {
         menuButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                Player.checkForCollision = false;
                 setVisible(false);
                 dispose();
             }
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 menuButton.setBackground(Color.WHITE);
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 menuButton.setBackground(Color.DARK_GRAY);
             }
         });
-    }
-    public static void updateScore(int score){
-        scoreNumber.setText(Integer.toString(score));
-    }
-    public static int getScore(){
-        if (scoreNumber != null){
-            return Integer.parseInt(scoreNumber.getText());
-        }
-        return 0;
     }
 
 

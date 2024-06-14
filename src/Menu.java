@@ -4,19 +4,22 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Menu extends JFrame {
-    private JButton start;
-    public static JButton difficulty;
-    private JButton exit;
     public static final String[] difficultys = {"LEICHT", "NORMAL", "SCHWER", "EXTREM"};
+    public static JButton difficulty;
     private final Color[] colors = {Color.green, Color.orange, Color.RED, Color.BLUE};
+    private final JLabel highScoreText;
+    private JButton start;
+    private JButton exit;
     private int currentDifficulty = 0;
     private JPanel buttonPanel;
-    private JLabel highScore;
-    private final JLabel highScoreText;
-    private JPanel highScorePanel;
+    private final JLabel highScore;
+    private final JPanel highScorePanel;
 
     public Menu(String title) throws IOException {
         super(title);
@@ -56,7 +59,29 @@ public class Menu extends JFrame {
 
     }
 
-    public void initializeButtons(){
+    public static void main(String[] args) throws IOException {
+        Menu menu = new Menu("Flappy Bird Menu");
+        menu.setVisible(true);
+        menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        menu.setSize(new Dimension(900, 700));
+    }
+
+    public static String readHighscore() {
+        File file = new File("Prog2Spiel/highscore.txt");
+        if (!file.exists()) {
+            return "0";
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line = br.readLine();
+            return (line != null) ? line : "0";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "0";
+        }
+    }
+
+    public void initializeButtons() {
         start = new JButton("Start");
         start.setForeground(Color.GREEN);
         start.setBackground(Color.DARK_GRAY);
@@ -69,9 +94,9 @@ public class Menu extends JFrame {
         difficulty.setForeground(Color.GREEN);
         difficulty.setBackground(Color.DARK_GRAY);
 
-        final JButton[] buttons = {start,exit,difficulty};
+        final JButton[] buttons = {start, exit, difficulty};
 
-        for(JButton btn: buttons){
+        for (JButton btn : buttons) {
             btn.setFont(new Font("Arial", Font.BOLD, 40));
             btn.setOpaque(true);
             btn.setMinimumSize(new Dimension(250, 100));
@@ -118,7 +143,7 @@ public class Menu extends JFrame {
         difficulty.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(currentDifficulty == 3) currentDifficulty = 0;
+                if (currentDifficulty == 3) currentDifficulty = 0;
                 else currentDifficulty += 1;
                 difficulty.setText(difficultys[currentDifficulty]);
                 difficulty.setForeground(colors[currentDifficulty]);
@@ -146,25 +171,5 @@ public class Menu extends JFrame {
         buttonPanel.add(exit);
         buttonPanel.add(Box.createRigidArea(new Dimension(25, 50)));
         buttonPanel.add(Box.createHorizontalGlue());
-    }
-    public static void main(String[] args) throws IOException {
-        Menu menu = new Menu("Flappy Bird Menu");
-        menu.setVisible(true);
-        menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        menu.setSize(new Dimension(900,700));
-    }
-    public static String readHighscore() {
-        File file = new File("Prog2Spiel/highscore.txt");
-        if (!file.exists()) {
-            return "0";
-        }
-
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line = br.readLine();
-            return (line != null) ? line : "0";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "0";
-        }
     }
 }

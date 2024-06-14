@@ -1,14 +1,15 @@
 import java.io.IOException;
 
-public class PlayerFallThread extends Thread{
+public class PlayerFallThread extends Thread {
 
-    protected Player player;
     public volatile boolean running = true;
+    protected Player player;
 
-    public PlayerFallThread(Player player){
+    public PlayerFallThread(Player player) {
         this.player = player;
     }
-    public void run(){
+
+    public void run() {
         while (running) {
             try {
                 Thread.sleep(5);

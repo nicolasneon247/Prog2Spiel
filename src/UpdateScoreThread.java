@@ -1,14 +1,11 @@
-import javax.swing.*;
-import java.io.IOException;
+public class UpdateScoreThread extends Thread {
 
-public class UpdateScoreThread extends Thread{
-
-public static boolean running = true;
+    public static boolean running = true;
 
     public void run() {
         while (running) {
             try {
-                switch(Menu.difficulty.getText()){
+                switch (Menu.difficulty.getText()) {
                     case "LEICHT":
                         Thread.sleep(1000);
                         break;
@@ -26,7 +23,7 @@ public static boolean running = true;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            if(running) GameFrame.updateScore(GameFrame.getScore() + 1);
+            if (running) GameFrame.updateScore(GameFrame.getScore() + 1);
         }
     }
 }
