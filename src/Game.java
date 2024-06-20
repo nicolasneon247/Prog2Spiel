@@ -13,7 +13,7 @@ public class Game extends JPanel {
     private final BackgroundImagePanel backgroundImagePanel;
 
     public Game(ArrayList<GameObject> elements, String score) {
-        backgroundImagePanel = new BackgroundImagePanel("Prog2Spiel/BG.png");
+        backgroundImagePanel = new BackgroundImagePanel("Prog2Spiel/Steinzeit.png");
         game = backgroundImagePanel;
         game.setLayout(null);
 

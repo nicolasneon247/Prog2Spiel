@@ -15,22 +15,20 @@ public class UpdateHighscoreTimer {
                 int currentScore = GameFrame.getScore();
                 GameFrame.updateScore(currentScore + 1);
                 switch (currentScore) {
-                    case 100:
-                        game.updateBackgroundImage("Prog2Spiel/Mittelalter.png");
+                    case 25:
+                        game.updateBackgroundImage("Prog2Spiel/MA.gif");
                         GameFrame.scoreText.setForeground(Color.BLUE);
                         GameFrame.scoreNumber.setForeground(Color.BLUE);
                         break;
-                    case 200:
-                        game.updateBackgroundImage("Prog2Spiel/Mittelalter.png");
+                    case 50:
+                        game.updateBackgroundImage("Prog2Spiel/Kriege.png");
                         GameFrame.scoreText.setForeground(Color.orange);
                         GameFrame.scoreNumber.setForeground(Color.orange);
                         break;
-                    case 300:
-                        game.updateBackgroundImage("Prog2Spiel/Mittelalter.png");
+                    case 75:
+                        game.updateBackgroundImage("Prog2Spiel/Stadt.png");
                         GameFrame.scoreText.setForeground(Color.red);
                         GameFrame.scoreNumber.setForeground(Color.red);
-                        break;
-                    default:
                         break;
                 }
                 if (currentScore > Integer.parseInt(Menu.readHighscore())) {
@@ -44,7 +42,7 @@ public class UpdateHighscoreTimer {
         int delay;
         switch (Menu.difficulty.getText()) {
             case "LEICHT":
-                delay = 1000;
+                delay = 800;
                 break;
             case "NORMAL":
                 delay = 600;

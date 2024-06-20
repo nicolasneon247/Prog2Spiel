@@ -6,16 +6,27 @@ import java.io.File;
 import java.io.IOException;
 
 class Enemy extends GameObject {
-
+    int currentScore = GameFrame.getScore();
     public Enemy(int x, int y, int width, int height, boolean isTop) {
         super("Enemy", x, y, width, height);
 
         BufferedImage Eimg = null;
+
+        boolean säulen = currentScore >= 25;
+
         try {
-            if (isTop) {
-                Eimg = ImageIO.read(new File("Prog2Spiel/Sprite-Baum_TOP.png"));
+            if (säulen) {
+                if (isTop) {
+                    Eimg = ImageIO.read(new File("Prog2Spiel/SäuleTOP.png"));
+                } else {
+                    Eimg = ImageIO.read(new File("Prog2Spiel/SäuleBOT.png"));
+                }
             } else {
-                Eimg = ImageIO.read(new File("Prog2Spiel/Sprite-Baum.png"));
+                if (isTop) {
+                    Eimg = ImageIO.read(new File("Prog2Spiel/Sprite-Baum_TOP.png"));
+                } else {
+                    Eimg = ImageIO.read(new File("Prog2Spiel/Sprite-Baum.png"));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
