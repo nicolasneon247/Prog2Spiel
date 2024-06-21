@@ -39,7 +39,6 @@ class Player extends GameObject {
                 boolean noOverlapY = this.getY() + this.getHeight() <= elm.getY() || this.getY() >= elm.getY() + elm.getHeight();
                 boolean noHitGround = this.getY() < 850;
                 if ((!noOverlapX && !noOverlapY) || !noHitGround) {
-                    //UpdateScoreThread.running = false;
                     GameLogic.ust.stopTimer();
                     JOptionPane.showMessageDialog(GameFrame.game, "Game Over!");
                     writeHighscore(GameFrame.getScore());

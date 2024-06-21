@@ -17,20 +17,11 @@ public class GameLogic {
 
     public GameLogic() throws IOException, InterruptedException {
 
-        //Motion
-        //new EnemyMoveTimer(playerObj);
-        //PlayerFallTimer pft = new PlayerFallTimer(playerObj); //ruckelt
-        //pft.start();
-
         PlayerFallThread fallThread = new PlayerFallThread(playerObj);
         fallThread.start();
 
         EnemyMoveThread enemyMoveThread = new EnemyMoveThread(playerObj);
         enemyMoveThread.start();
-
-        //UpdateScoreThread scoreThread = new UpdateScoreThread();
-        //scoreThread.start();
-
 
         //Gamelogic
         MoveUP = new MoveUP();
@@ -38,12 +29,12 @@ public class GameLogic {
         InputMap im = playerObj.getEntity().getInputMap();
         ActionMap am = playerObj.getEntity().getActionMap();
 
-        im.put(KeyStroke.getKeyStroke("SPACE"), "up"); //pressed / released /typed vor den buchstaben
+        im.put(KeyStroke.getKeyStroke("SPACE"), "up");
         am.put("up", MoveUP);
 
         //Entitys
         elements.add(playerObj);
-        //elements.add(enemy);
+
         //start Game
         Game game = new Game(elements, String.valueOf(score));
 

@@ -7,6 +7,7 @@ import java.io.IOException;
 
 class Enemy extends GameObject {
     int currentScore = GameFrame.getScore();
+
     public Enemy(int x, int y, int width, int height, boolean isTop) {
         super("Enemy", x, y, width, height);
 

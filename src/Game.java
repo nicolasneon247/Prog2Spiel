@@ -37,11 +37,8 @@ public class Game extends JPanel {
         GameFrame launchGame = new GameFrame("Flappy Bird", game);
         launchGame.setVisible(true);
         launchGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        launchGame.setResizable(true); // vielleicht false setzen
-        launchGame.setSize(new Dimension(1920, 1080)); // richtige Fenstergröße muss noch gefunden werden
-
-        // launchGame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        // launchGame.setUndecorated(true);
+        launchGame.setResizable(true);
+        launchGame.setSize(new Dimension(1920, 1080));
     }
 
     private class BackgroundImagePanel extends JPanel {
